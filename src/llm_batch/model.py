@@ -22,7 +22,7 @@ def get_llm(model_name: str):
 
 
 def get_gpt4():
-    ...
+    return lambda x: x
 
 
 def get_gpt3():
