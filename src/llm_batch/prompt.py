@@ -31,11 +31,11 @@ def get_prompt_template() -> PromptTemplate:
     general_instructions = "Extract the topic and sentiment of the given input text."
     format_instuctions = get_format_instructions()
 
-    template = f"""
-    {{general_instructions}}\n
-    {{format_instructions}}\n
-    INPUT TEXT: {{input_text}}\n
-    JSON:
+    template = """
+    {general_instructions}\n
+    {format_instructions}\n
+    INPUT TEXT: {input_text}\n
+    OUTPUT JSON:
     """
 
     prompt = PromptTemplate(
