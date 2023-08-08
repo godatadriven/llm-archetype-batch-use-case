@@ -17,21 +17,26 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def main(input_dir, output_dir, model_name):
+def main(model_name: str, input_dir: Path, output_dir: Path, schema_path: Path):
     logging.info("Running LLM Batch")
 
-    documents = load_documents(Path(input_dir))
+    documents = load_documents(input_dir)
 
     llm = get_llm(model_name)
-    prompt_template = get_prompt_template()
+    prompt_template = get_prompt_template(schema_path)
 
     processed = process_documents(documents, prompt_template, llm)
 
-    store_output(processed, Path(output_dir))
+    store_output(processed, output_dir)
 
 
 if __name__ == "__main__":
     # TODO: add argument parsing or CLI interface
     # TODO: add schema (path) so user can specify desired output structure
     #       as now it is hardcoded in prompt.py
-    main("data/input_txt", "output", "gpt4")
+    main(
+        "gpt-3",
+        Path("data/input_txt"),
+        Path("output"),
+        Path("schema.json"),
+    )
