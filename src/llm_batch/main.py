@@ -32,8 +32,6 @@ def main(model_name: str, input_dir: Path, output_dir: Path, schema_path: Path):
 
 if __name__ == "__main__":
     # TODO: add argument parsing or CLI interface
-    # TODO: add schema (path) so user can specify desired output structure
-    #       as now it is hardcoded in prompt.py
     main(
         "gpt-3",
         Path("data/input_txt"),
