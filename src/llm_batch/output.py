@@ -12,6 +12,8 @@ def store_output(outputs: dict[Path, dict], output_dir: Path) -> None:
 
     for path, document in outputs.items():
         output_path = os.path.join(output_dir, path.name)
+
+        output_path = os.path.splitext(output_path)[0] + ".json"
         with open(output_path, "w") as f:
             f.write(document["processed"])
     logger.info(f"Stored {len(outputs)} outputs in '{output_dir}'")
