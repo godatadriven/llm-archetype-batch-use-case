@@ -27,10 +27,12 @@ def load_schema(schema_path: Path) -> BaseModel:
             Field(default=None, description=field_description),
         )
 
-    schema_model = create_model("SchemaModel", **fields)
+    schema_model = create_model("SchemaModel", **fields)  # type: ignore
     return schema_model
 
 
 def get_format_instructions(schema_path: Path) -> str:
-    parser = PydanticOutputParser(pydantic_object=load_schema(schema_path))
+    parser = PydanticOutputParser(
+        pydantic_object=load_schema(schema_path)
+    )  # type: ignore
     return parser.get_format_instructions()
