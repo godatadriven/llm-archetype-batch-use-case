@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+import time
 
 from langchain import PromptTemplate
 
@@ -11,6 +12,8 @@ def process_documents(
 ) -> dict[Path, dict]:
     logger.info("Running LLM on documents")
 
+    start = time.perf_counter()
+
     for path, document in documents.items():
         prompt = prompt_template.format(input_text=document["content"])
         output = llm(prompt)
@@ -21,5 +24,9 @@ def process_documents(
             "Processed document.\n"
             + f"> PATH: {path}\n> PROMPT: {prompt}\n\n> OUTPUT: {output}"
         )
+
+    logger.info(
+        f"Processed {len(documents)} documents in {time.perf_counter() - start:.2f}s"
+    )
 
     return documents
