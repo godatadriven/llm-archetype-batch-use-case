@@ -36,5 +36,5 @@ if __name__ == "__main__":
         "gpt-3",
         Path("data/input_txt"),
         Path("output"),
-        Path("schema.yml"),
+        Path("schema.yaml"),
     )
