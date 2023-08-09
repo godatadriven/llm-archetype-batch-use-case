@@ -8,6 +8,7 @@ from llm_batch.model import get_llm
 from llm_batch.output import store_output
 from llm_batch.process import process_documents
 from llm_batch.prompt import get_prompt_template
+from llm_batch.schema import get_output_parser
 
 logger = logging.getLogger(__name__)
 
@@ -46,8 +47,9 @@ def batch(
     documents = load_documents(input_dir)
 
     llm = get_llm(model_name)
-    prompt_template = get_prompt_template(schema_path)
+    parser = get_output_parser(schema_path)
+    prompt_template = get_prompt_template(parser)
 
-    processed = process_documents(documents, prompt_template, llm)
+    processed = process_documents(documents, prompt_template, llm, parser)
 
     store_output(processed, output_dir)

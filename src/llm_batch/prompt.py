@@ -1,16 +1,14 @@
 import logging
-from pathlib import Path
 
 from langchain import PromptTemplate
-
-from llm_batch.schema import get_format_instructions
+from langchain.output_parsers import PydanticOutputParser
 
 logger = logging.getLogger(__name__)
 
 
-def get_prompt_template(schema_path: Path) -> PromptTemplate:
+def get_prompt_template(parser: PydanticOutputParser) -> PromptTemplate:
     general_instructions = "Extract the topic and sentiment of the given input text."
-    format_instuctions = get_format_instructions(schema_path)
+    format_instuctions = parser.get_format_instructions()
 
     template = """
     {general_instructions}\n
@@ -28,4 +26,12 @@ def get_prompt_template(schema_path: Path) -> PromptTemplate:
         },
     )
 
+    return prompt
+
+
+def get_correction_prompt(prompt: str, output: str, error: str) -> str:
+    prompt += f"""{output}\n
+    ERROR: {error}\n
+    CORRECTED JSON:
+    """
     return prompt

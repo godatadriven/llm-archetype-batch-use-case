@@ -39,15 +39,12 @@ def load_schema(schema_path: Path) -> type[BaseModel]:
 
         fields[field_name] = fields[field_name] = (
             field_type,
-            Field(default=None, description=field_description),
+            Field(description=field_description),
         )
 
     schema_model = create_model("SchemaModel", **fields)  # type: ignore
     return schema_model
 
 
-def get_format_instructions(schema_path: Path) -> str:
-    parser = PydanticOutputParser(
-        pydantic_object=load_schema(schema_path)
-    )  # type: ignore
-    return parser.get_format_instructions()
+def get_output_parser(schema_path: Path) -> PydanticOutputParser:
+    return PydanticOutputParser(pydantic_object=load_schema(schema_path))
