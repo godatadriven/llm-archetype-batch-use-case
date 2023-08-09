@@ -3,7 +3,7 @@ import time
 from pathlib import Path
 
 from langchain import PromptTemplate
-from tqdm import tqdm
+from tqdm import tqdm  # type: ignore
 
 logger = logging.getLogger(__name__)
 

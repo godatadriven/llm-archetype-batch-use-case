@@ -42,7 +42,7 @@ def load_schema(schema_path: Path) -> type[BaseModel]:
             Field(default=None, description=field_description),
         )
 
-    schema_model = create_model("SchemaModel", **fields)
+    schema_model = create_model("SchemaModel", **fields)  # type: ignore
     return schema_model
 
 

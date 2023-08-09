@@ -46,15 +46,20 @@ def get_gpt_35_turbo():
     # "The completion operation does not work with the specified model, gpt-35-turbo."
     logger.info("Loading LLM 'gpt-35-turbo'")
 
-    return lambda prompt: openai.ChatCompletion.create(
-        model="gpt-35-turbo",
-        engine="gpt-35-turbo-us",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7,
-        max_tokens=256,
-        top_p=1,
-    )["choices"][0]["message"]["content"]
+    # this allows running the returned llm with llm("your prompt")
+    return (
+        lambda prompt: openai.ChatCompletion.create(
+            model="gpt-35-turbo",
+            engine="gpt-35-turbo-us",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=256,
+            top_p=1,
+        )
+        .choices[0]
+        .message.content
+    )
 
 
 def get_palm2():
-    ...
+    raise NotImplementedError("PALM-2 is not yet supported")
