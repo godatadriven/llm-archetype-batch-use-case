@@ -3,6 +3,7 @@ import time
 from pathlib import Path
 
 from langchain import PromptTemplate
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ def process_documents(
 
     start = time.perf_counter()
 
-    for path, document in documents.items():
+    for path, document in tqdm(documents.items()):
         prompt = prompt_template.format(input_text=document["content"])
         output = llm(prompt)
 
