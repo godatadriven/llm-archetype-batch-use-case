@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field, create_model
 logger = logging.getLogger(__name__)
 
 # Using type mapping to avoid using eval
+# when loading schema from YAML
 TYPE_MAPPING = {
     "str": str,
     "int": int,
