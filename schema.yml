@@ -1,3 +1,10 @@
+# This schema defines what will be extracted from the input text.
+# It is loaded into the code and converted to a pydantic model.
+# When processing the documents, the pydantic model is used to validate the
+# output of the LLM. Custom validations on fields are currently not supported.
+# TODO: allow for custom user-provided validation logic on input fields.
+#       e.g. fixed categories for 'sentiment'
+
 topic:
   type: str
   description: The topic of the input text
