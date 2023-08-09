@@ -31,7 +31,7 @@ def process_and_validate(
             logger.debug(f"({path}) {e}")
             logger.warning(
                 f"Failed to parse output for '{path}'. "
-                + "Retrying... ({i+1}/{max_retries})"
+                + f"Retrying... ({i+1}/{max_retries})"
             )
             prompt = get_correction_prompt(prompt, output, str(e))
     return None  # max retries exceeded

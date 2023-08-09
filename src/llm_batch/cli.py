@@ -25,7 +25,24 @@ def callback():
 
 
 @app.command()
-def batch(
+def preprocess(
+    input_dir: Path = typer.Option(
+        default="data/input_pdf",
+        help="Input directory with the PDF data to be processed.",
+    ),
+    output_dir: Path = typer.Option(
+        default="data/input_txt",
+        help="Output directory where the processed data will be stored.",
+    ),
+):
+    logging.info("Preprocessing PDFs")
+
+    documents = load_documents(input_dir, pdf=True)
+    store_output(documents, output_dir, extension=".txt")
+
+
+@app.command()
+def run(
     model_name: str = typer.Option(
         default="gpt-3", help="LLM to use (e.g. gpt-3/4, palm-2, ...)."
     ),
@@ -52,4 +69,4 @@ def batch(
 
     processed = process_documents(documents, prompt_template, llm, parser)
 
-    store_output(processed, output_dir)
+    store_output(processed, output_dir, extension=".json")
