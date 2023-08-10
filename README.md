@@ -19,4 +19,4 @@ For a given set of input documents (`pdf` or `txt`), we apply an LLM to extract 
 8. Run `poetry run llm-batch run` to process your documents. 
 9. Check the results in the `output` folder! 🎉 
 
-To configure input parameters such as paths, run `poetry run llm batch --help` to see what's possible.
+To configure input parameters such as paths, run `poetry run llm-batch run --help` or `poetry run llm-batch preprocess --help` to see what's possible.
