@@ -2,16 +2,16 @@
 # It is loaded in schema.py and converted to a pydantic model.
 # When processing the documents, the pydantic model is used to validate the
 # output of the LLM. Custom validations on fields are currently not supported.
-# TODO: allow for custom user-provided validation logic on input fields.
-#       e.g. fixed categories for 'sentiment'
+# Note: use double quotations, e.g. use
+# Literatal["positive", ...], not Literal['positive', ...]
 
 topic:
   type: str
   description: The topic of the input text
 
 sentiment:
-  type: str
-  description: The sentiment of the input text (e.g. positive, negative, neutral)
+  type: Literal["positive", "negative", "neutral"]
+  description: The sentiment of the input text
 
 keywords:
   type: list[str]

@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any, Literal
 
 import yaml  # type: ignore
 from langchain.output_parsers import PydanticOutputParser
@@ -21,6 +22,27 @@ TYPE_MAPPING = {
 }
 
 
+def get_field_type(_field_type: str) -> Any:
+    if _field_type.startswith("Literal["):
+        literal_values_str = _field_type[8:-1]  # Extract the values inside the brackets
+        literal_values = [x.strip() for x in literal_values_str.split(",")]
+        literal_values_parsed = []
+
+        for value in literal_values:
+            if value.startswith('"') and value.endswith('"'):
+                literal_values_parsed.append(
+                    value[1:-1]
+                )  # Remove quotes and add as str
+            elif value.isdigit():
+                literal_values_parsed.append(int(value))  # type: ignore
+            else:
+                raise ValueError(f"Unsupported value type in Literal: {value}")
+
+        return Literal[*literal_values_parsed]
+    else:
+        return TYPE_MAPPING.get(_field_type)
+
+
 def load_schema(schema_path: Path) -> type[BaseModel]:
     logger.info(f"Loading schema from '{schema_path}'")
     with open(schema_path) as f:
@@ -28,13 +50,12 @@ def load_schema(schema_path: Path) -> type[BaseModel]:
 
     fields = {}
     for field_name, field_info in schema.items():
-        _field_type = field_info["type"]
         field_description = field_info["description"]
-        field_type = TYPE_MAPPING.get(_field_type)
+        field_type = get_field_type(field_info["type"])
 
         if field_type is None:
             raise ValueError(
-                f"Unsupported type '{_field_type}' for field '{field_name}'"
+                f"Unsupported type '{field_type}' for field '{field_name}'"
             )
 
         fields[field_name] = fields[field_name] = (
