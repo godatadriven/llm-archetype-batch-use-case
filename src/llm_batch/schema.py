@@ -58,7 +58,7 @@ def load_schema(schema_path: Path) -> type[BaseModel]:
                 f"Unsupported type '{field_type}' for field '{field_name}'"
             )
 
-        fields[field_name] = fields[field_name] = (
+        fields[field_name] = (
             field_type,
             Field(description=field_description),
         )
