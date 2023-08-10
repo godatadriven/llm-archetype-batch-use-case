@@ -7,7 +7,10 @@ logger = logging.getLogger(__name__)
 
 
 def get_prompt_template(parser: PydanticOutputParser) -> PromptTemplate:
-    general_instructions = "Extract the topic and sentiment of the given input text."
+    general_instructions = """
+    Extract structured information from the given input text.
+    The required information to be extracted is specified below.
+    """
     format_instuctions = parser.get_format_instructions()
 
     template = """
