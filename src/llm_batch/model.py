@@ -3,15 +3,20 @@ import os
 
 import dotenv
 import openai
+import vertexai  # type: ignore
 from langchain.llms import AzureOpenAI
+from vertexai.language_models import TextGenerationModel  # type: ignore
 
 dotenv.load_dotenv()
+
+GCP_PROJECT = os.environ["GCP_PROJECT"]
 
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 openai.api_key = os.environ["OPENAI_API_KEY"]
 openai.api_base = os.environ["OPENAI_API_BASE"]
 openai.api_type = os.environ["OPENAI_API_TYPE"]
 openai.api_version = os.environ["OPENAI_API_VERSION"]
+
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +26,8 @@ def get_llm(model_name: str):
         llm = get_gpt_4()
     elif model_name == "gpt-3":
         llm = get_gpt_35_turbo()
-    elif model_name == "palm-2":
-        llm = get_palm2()
+    elif model_name == "palm":
+        llm = get_palm()
     else:
         raise ValueError(f"Invalid model: {model_name}")
 
@@ -61,5 +66,8 @@ def get_gpt_35_turbo():
     )
 
 
-def get_palm2():
-    raise NotImplementedError("PALM-2 is not yet supported")
+def get_palm():
+    logger.info("Loading LLM 'text-bison@001'")
+    vertexai.init(project=GCP_PROJECT, location="us-central1")
+    model = TextGenerationModel.from_pretrained("text-bison@001")
+    return lambda prompt: model.predict(prompt).text
