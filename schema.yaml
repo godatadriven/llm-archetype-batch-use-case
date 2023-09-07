@@ -5,8 +5,8 @@
 # Literatal["positive", ...], not Literal['positive', ...]
 
 topic:
-  type: str
-  description: The topic of the input text
+  type: Literal["price", "quality", "shipping", "other"]
+  description: The topic of the input text (assuming a single topic per text)
 
 sentiment:
   type: Literal["positive", "negative", "neutral"]
@@ -14,4 +14,4 @@ sentiment:
 
 keywords:
   type: list[str]
-  description: At most 3 keywords of the input text
+  description: At most 3 key phrases of the input text
